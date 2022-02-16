@@ -6,6 +6,7 @@ const sinalAmarelo = document.getElementById('Amarelo')
 const sinalVerde = document.getElementById('Verde')
 const automatico = document.getElementById('automatico')
 let idAutomatico = null;
+let semaforoDesligado = null;
 
 // Função para acender o sinal Vermelho
 const ligarVermelho = () => {
@@ -19,7 +20,7 @@ const ligarAmarelo = () => {
 
 // Função para acender o sinal Verde
 const ligarVerde = () => {
-    semaforo.src  = './img/verde.png'
+    semaforo.src = './img/verde.png'
 }
 
 // validação se ela estiver no vermelho
@@ -37,28 +38,33 @@ const Verde = () => {
     return semaforo.src.includes('verde')
 }
 
-//
+
+// semaforo no automatico
 const trocarSinal = () => {
-    if(Vermelho()){
+
+    if (Vermelho() || semaforoDesligado == null) {
+        semaforoDesligado = 1;
         ligarAmarelo()
-    }else if(Amarelo()){
+    } else if (Amarelo()) {
         ligarVerde()
-    }else{
-        ligarVerde()
+    } else if (Verde()) {
+        ligarVermelho()
     }
 }
 
+
+
 // Função para colocar no automatico o semaforo
 const ligarAutomatico = () => {
-    if(idAutomatico == null){
+    if (idAutomatico == null) {
         idAutomatico = setInterval(trocarSinal, 500)
         automatico.textContent = 'Parar'
-    }else{
+    } else {
         clearInterval(idAutomatico)
         automatico.textContent = 'Automático'
         idAutomatico = null
     }
-    
+
 }
 
 //Eventos para chamar o click dos botões
